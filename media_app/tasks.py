@@ -7,8 +7,8 @@ from social_media import settings
 def send_mail_func(self):
     users = User.objects.all()
     for user in users:
-        mail_subject = "Sign up confirmation"
-        message = "Thank you for signing up to my website!"
+        mail_subject = "Login confirmation"
+        message = "You have successfully logged in to your account!"
         to_email = user.email
         send_mail(
             subject = mail_subject,
