@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from media_app.tasks import send_mail_func
 
 
-# GET posts ----->
+# GET posts 
 class PostList(generics.ListAPIView):
     queryset=Post.objects.all().order_by('-created_on')
     serializer_class=PostSerializer
@@ -15,22 +15,22 @@ class PostList(generics.ListAPIView):
     search_fields = ['topic']
     filter_backends = (filters.SearchFilter,)
 
-# CREATE posts ----->
+# CREATE posts 
 class PostCreate(generics.ListCreateAPIView):
     queryset=Post.objects.all()
     serializer_class=PostSerializer
 
-# GET user accounts ----->
+# GET user accounts 
 class UserProfileList(generics.ListAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
 
-# CREATE user accounts ----->
+# CREATE user accounts 
 class UserProfileCreate(generics.ListCreateAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
 
-# LOGIN ----->
+# LOGIN 
 class UserProfileLogin(APIView):
     serializer_class = UserSerializer
 
@@ -46,18 +46,18 @@ class UserProfileLogin(APIView):
             send_mail_func.delay()
             return Response({'message': 'Login successful.'}, status=200)
 
-# UPDATE user accounts ----->
+# UPDATE user accounts 
 class UserProfileUpdate(generics.RetrieveUpdateAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
 
-# DELETE user accounts ----->
+# DELETE user accounts 
 class UserProfileDelete(generics.DestroyAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
     
 
-# FILTER user accounts ----->
+# FILTER user accounts 
 class UserProfileFilter(generics.ListAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
