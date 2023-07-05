@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'media_app',
     'rest_framework',
     'django_filters',
-    'django_celery_results',
-    'django_celery_beat',
+   
     
 ]
 REST_FRAMEWORK = {
@@ -146,7 +145,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# CELERY SETTINGS ------>
+# CELERY SETTINGS 
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 accept_content = ['application/json']
@@ -157,10 +156,8 @@ timezone = 'Asia/Tashkent'
 broker_connection_retry_on_startup = True
 result_backend = 'django-db'
 
-# CELERY BEAT ----->
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
-# SMTP Settings ----->
+# SMTP Settings 
 email_backend = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
