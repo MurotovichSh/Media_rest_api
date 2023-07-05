@@ -63,52 +63,5 @@ class UserProfileFilter(generics.ListAPIView):
     serializer_class=UserSerializer
     filter_backends=[DjangoFilterBackend]
     filterset_fields=["username"]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @api_view(['GET','POST'])
-# def posts(request):
-#     # view the posts--->
-#     if request.method=='GET':
-#        posts = Post.objects.all()
-#        serializer = PostSerializer(posts, many=True)
-#        return Response(serializer.data)
-#     # create posts--->
-#     elif request.method=='POST':
-#         serializer=PostSerializer(data=request.data)
-#         if serializer.is_valid():
-#            serializer.save()
-#            return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# @api_view(['GET'])
-# def post_list(request):
-#     posts=Post.objects.all()
-#     paginator = Paginator(posts, 10)
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     serializer=PostSerializer(page_obj,many=True)
-#     return Response(serializer.data)
-# @api_view(['GET'])
-# def filtering(request):
-#     posts=Post.objects.all()
-#     filter_backend=DjangoFilterBackend()
-#     filter_field=['user']
-#     filtered_posts=filter_backend(request,filter_field,posts)
-#     return Response(filtered_posts.data)
-
-    
+   
 
