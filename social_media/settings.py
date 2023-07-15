@@ -152,7 +152,6 @@ accept_content = ['application/json']
 result_serializer = 'json'
 
 task_serializer = 'json'
-timezone = 'Asia/Tashkent'
 broker_connection_retry_on_startup = True
 result_backend = 'django-db'
 
