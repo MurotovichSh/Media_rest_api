@@ -10,5 +10,6 @@ Log in to an existing user account with a username and password and get a notifi
 Update an existing user account by changing the username and/or password.
 Delete an existing user account.
 Filter user accounts by username.
+When retrieving the posts and user profiles, caching is used. As the caching system Memcached is implemented.
 # Acknowledgement 
 DRF(Django Rest Framework) official documentation.
