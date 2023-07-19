@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from rest_framework import generics,filters
 from django_filters.rest_framework import DjangoFilterBackend
 from media_app.tasks import send_mail_func
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 # GET posts 
@@ -14,6 +16,11 @@ class PostList(generics.ListAPIView):
     paginate_by=10
     search_fields = ['topic']
     filter_backends = (filters.SearchFilter,)
+    
+# Caching
+@method_decorator(cache_page(60*60))
+def get(self, request, *args, **kwargs):
+    return self.list(request, *args, **kwargs)
 
 # CREATE posts 
 class PostCreate(generics.ListCreateAPIView):
@@ -63,5 +70,10 @@ class UserProfileFilter(generics.ListAPIView):
     serializer_class=UserSerializer
     filter_backends=[DjangoFilterBackend]
     filterset_fields=["username"]
-   
+    
+# Caching
+@method_decorator(cache_page(60*60))
+def get(self, request, *args, **kwargs):
+    return self.list(request, *args, **kwargs)
+
 
