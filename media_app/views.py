@@ -26,11 +26,17 @@ def get(self, request, *args, **kwargs):
 class PostCreate(generics.ListCreateAPIView):
     queryset=Post.objects.all()
     serializer_class=PostSerializer
+    
+# Permission class
+class IsAdminUser(BasePermission):
+    def has_permission(self, request, view):
+        return bool( request.user and request.user.is_staff)
 
 # GET user accounts 
 class UserProfileList(generics.ListAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
+    permissions_classes=[IsAdminUser]
 
 # CREATE user accounts 
 class UserProfileCreate(generics.ListCreateAPIView):
