@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from media_app.tasks import send_mail_func
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework.permissions import BasePermission
 
 
 # GET posts 
