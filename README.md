@@ -1,5 +1,5 @@
 # Overview
-Media App is a web application that allows users to create posts and user accounts, view posts and user accounts, update user accounts, and delete user accounts. Users can also log in to the application to access additional features(get a notification email). For sending the emails Celery and RabbitMQ were implemented.
+Media App is a web application that allows users to create posts and user accounts, view posts and user accounts, update user accounts, and delete user accounts. As a database PostgreSQL is used. Users can also log in to the application to access additional features(get a notification email). For sending the emails Celery and RabbitMQ were implemented.
 
 # Features
 View a list of posts sorted by the date created.
