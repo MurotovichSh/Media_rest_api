@@ -8,8 +8,13 @@ def send_mail_func(self):
     users = User.objects.all()
     for user in users:
 <<<<<<< HEAD
+<<<<<<< HEAD
         mail_subject = "Sign up confirmation"
         message = "Thank you for signing up to my website!"
+=======
+        mail_subject = "Login confirmation"
+        message = "You have successfully logged in to your account!"
+>>>>>>> 9a23bda09f0df9f60a91fbfe2ead0f71d5c1ff7a
 =======
         mail_subject = "Login confirmation"
         message = "You have successfully logged in to your account!"
@@ -23,7 +28,11 @@ def send_mail_func(self):
             fail_silently=False,
         )
 <<<<<<< HEAD
+<<<<<<< HEAD
     return "Task completed!"
+=======
+    return "Task completed!"
+>>>>>>> 9a23bda09f0df9f60a91fbfe2ead0f71d5c1ff7a
 =======
     return "Task completed!"
 >>>>>>> 9a23bda09f0df9f60a91fbfe2ead0f71d5c1ff7a
