@@ -10,6 +10,12 @@ from django.views.decorators.cache import cache_page
 from rest_framework.permissions import BasePermission
 
 
+
+# Permission class
+class IsAdminUser(BasePermission):
+    def has_permission(self, request, view):
+        return bool( request.user and request.user.is_staff)
+        
 # GET posts 
 class PostList(generics.ListAPIView):
     queryset=Post.objects.all().order_by('-created_on')
@@ -17,6 +23,7 @@ class PostList(generics.ListAPIView):
     paginate_by=10
     search_fields = ['topic']
     filter_backends = (filters.SearchFilter,)
+    permissions_classes=[IsAdminUser]
     
 # Caching
 @method_decorator(cache_page(60*60))
@@ -27,11 +34,6 @@ def get(self, request, *args, **kwargs):
 class PostCreate(generics.ListCreateAPIView):
     queryset=Post.objects.all()
     serializer_class=PostSerializer
-    
-# Permission class
-class IsAdminUser(BasePermission):
-    def has_permission(self, request, view):
-        return bool( request.user and request.user.is_staff)
 
 # GET user accounts 
 class UserProfileList(generics.ListAPIView):
@@ -69,6 +71,7 @@ class UserProfileUpdate(generics.RetrieveUpdateAPIView):
 class UserProfileDelete(generics.DestroyAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
+
     
 
 # FILTER user accounts 
