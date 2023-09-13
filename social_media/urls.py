@@ -27,7 +27,8 @@ urlpatterns = [
     path('users/create/',views.UserProfileCreate.as_view(),name='user_create'),
     path('',views.UserProfileLogin.as_view(),name='login'),
     path('users/filter/',views.UserProfileFilter.as_view(),name='filter'),
-    path('users/update/',views.UserProfileUpdate.as_view(),name='user_update'),
-    path('users/delete/',views.UserProfileDelete.as_view(),name='user_delete'),
+    path('users/update/<int:pk>',views.UserProfileUpdate.as_view(),name='user_update'),
+    path('users/delete/<int:pk>',views.UserProfileDelete.as_view(),name='user_delete'),
+    path('logout/', LogoutView.as_view(),name='logout'),
 
 ]
