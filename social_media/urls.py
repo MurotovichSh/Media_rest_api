@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path
 from media_app import views 
 
+from django.contrib.auth.views import LogoutView
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +33,17 @@ urlpatterns = [
     path('users/update/<int:pk>',views.UserProfileUpdate.as_view(),name='user_update'),
     path('users/delete/<int:pk>',views.UserProfileDelete.as_view(),name='user_delete'),
     path('logout/', LogoutView.as_view(),name='logout'),
-
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
