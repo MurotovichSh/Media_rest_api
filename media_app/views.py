@@ -6,7 +6,7 @@ from rest_framework import generics,filters
 from django_filters.rest_framework import DjangoFilterBackend
 from media_app.tasks import send_mail_func
 from django.utils.decorators import method_decorator
-
+from django.contrib.auth import authenticate, login
 from rest_framework.permissions import IsAuthenticated
 from django.views.decorators.cache import cache_page
 from rest_framework.permissions import BasePermission
@@ -64,13 +64,17 @@ class UserProfileLogin(APIView):
         username = request.data['username']
         password = request.data['password']
 
-        # Check if the user exists and their password is correct.
-        user = User.objects.filter(username=username).first()
-        if user is None or not user.check_password(password):
-            return Response({'error': 'Invalid username or password.'}, status=401)
-        else:
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # User authentication successful
+            login(request, user)  
             send_mail_func.delay()
             return Response({'message': 'Login successful.'}, status=200)
+        else:
+            # User authentication failed
+            return Response({'error': 'Invalid username or password.'}, status=401)
 
 
 # UPDATE user accounts ----->
