@@ -7,9 +7,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from media_app.tasks import send_mail_func
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,BasePermission
 from django.views.decorators.cache import cache_page
-from rest_framework.permissions import BasePermission
+
 
 
 # Permission class
