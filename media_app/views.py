@@ -1,14 +1,16 @@
-from .models import *
+from .models import Post
 from rest_framework.response import Response
-from .serializers import *
+from .serializers import PostSerializer, UserSerializer, GroupSerializer
+from django.contrib.auth.models import User,Group
 from rest_framework.views import APIView
-from rest_framework import generics,filters
+from rest_framework import generics,filters,permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from media_app.tasks import send_mail_func
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
-from rest_framework.permissions import IsAuthenticated,BasePermission
 from django.views.decorators.cache import cache_page
+from rest_framework.permissions import BasePermission,IsAuthenticated
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 
 
@@ -16,6 +18,12 @@ from django.views.decorators.cache import cache_page
 class IsAdminUser(BasePermission):
     def has_permission(self, request, view):
         return bool( request.user and request.user.is_staff)
+
+class GroupList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['groups']
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
 # GET posts ----->
 class PostList(generics.ListAPIView):
@@ -27,9 +35,6 @@ class PostList(generics.ListAPIView):
     filter_backends = (filters.SearchFilter,)
 
 
-    
-    
-
 # Caching
 @method_decorator(cache_page(60*60))
 def get(self, request, *args, **kwargs):
@@ -39,7 +44,6 @@ def get(self, request, *args, **kwargs):
 class PostCreate(generics.ListCreateAPIView):
     queryset=Post.objects.all()
     serializer_class=PostSerializer
-  
     permission_classes = [IsAuthenticated]
 
 
@@ -47,7 +51,7 @@ class PostCreate(generics.ListCreateAPIView):
 class UserProfileList(generics.ListAPIView):
     queryset=User.objects.all()
     serializer_class=UserSerializer
-    permission_classes = [IsAdminUser] 
+    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope] 
 
 # CREATE user accounts ----->
 class UserProfileCreate(generics.ListCreateAPIView):
@@ -69,13 +73,12 @@ class UserProfileLogin(APIView):
 
         if user is not None:
             # User authentication successful
-            login(request, user)  
+            login(request, user)  # Log in the user
             send_mail_func.delay()
             return Response({'message': 'Login successful.'}, status=200)
         else:
             # User authentication failed
             return Response({'error': 'Invalid username or password.'}, status=401)
-
 
 # UPDATE user accounts ----->
 class UserProfileUpdate(generics.RetrieveUpdateAPIView):
@@ -102,6 +105,10 @@ class UserProfileFilter(generics.ListAPIView):
 @method_decorator(cache_page(60*60))
 def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)
+
+
+
+
 
 
 
