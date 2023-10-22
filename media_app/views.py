@@ -33,12 +33,14 @@ class PostList(generics.ListAPIView):
     paginate_by=10
     search_fields = ['topic']
     filter_backends = (filters.SearchFilter,)
+    
+    # Caching
+    @method_decorator(cache_page(60*60))
+    def get(self, request, *args, **kwargs):
+       return self.list(request, *args, **kwargs)
 
 
-# Caching
-@method_decorator(cache_page(60*60))
-def get(self, request, *args, **kwargs):
-    return self.list(request, *args, **kwargs)
+
 
 # CREATE posts ----->
 class PostCreate(generics.ListCreateAPIView):
@@ -101,10 +103,6 @@ class UserProfileFilter(generics.ListAPIView):
     filter_backends=[DjangoFilterBackend]
     filterset_fields=["username"]
 
-# Caching
-@method_decorator(cache_page(60*60))
-def get(self, request, *args, **kwargs):
-    return self.list(request, *args, **kwargs)
 
 
 
