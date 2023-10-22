@@ -14,10 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.urls import path,include
 from django.contrib import admin
-from django.urls import path
+admin.autodiscover()
 from media_app import views 
-
+from media_app.views import GroupList
 from django.contrib.auth.views import LogoutView
 
 
@@ -33,11 +34,9 @@ urlpatterns = [
     path('users/update/<int:pk>',views.UserProfileUpdate.as_view(),name='user_update'),
     path('users/delete/<int:pk>',views.UserProfileDelete.as_view(),name='user_delete'),
     path('logout/', LogoutView.as_view(),name='logout'),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('groups/', GroupList.as_view()),
 ]
-
-
-
-
 
 
 
