@@ -10,9 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
  
-from pathlib import Path
 import os
-from .env import PASSWORD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,9 +25,9 @@ STATIC_DIR=os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'django-insecure-$kuj)i89x@+bt!er^88^y8&&rja#7y#u^t1*ot14*vx5g005as'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -45,16 +43,26 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',
-    
-    
+    'celery',
+    'silk',
+    'oauth2_provider',
 ]
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-   
-   
-   
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
 }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
 MIDDLEWARE = [
+    'silk.middleware.SilkyMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +73,11 @@ MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
+
 ]
+
+
+
 
 CACHES = {
     'default': {
@@ -107,11 +119,11 @@ DATABASES = {
 
         'USER': 'postgres',
 
-        'PASSWORD': PASSWORD,
+        'PASSWORD': 'VCb4zNYf0SLxGvIFHhRP',
 
-        'HOST': 'containers-us-west-159.railway.app',
+        'HOST': 'containers-us-west-82.railway.app',
 
-        'PORT': 5491,
+        'PORT': 5788,
         
 
     }
@@ -161,21 +173,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CELERY SETTINGS ------>
 
-BROKER_URL = 'amqp://guest:guest@localhost:5672/'
-accept_content = ['application/json']
-result_serializer = 'json'
+BROKER_URL = 'RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/'
+ACCEPT_CONTENT = ['application/json']
+RESULT_SERIALIZER= 'json'
 
-task_serializer = 'json'
-broker_connection_retry_on_startup = True
-result_backend = 'django-db'
+TASK_SERIALIZER = 'json'
+BROKER_CONNECT_RETRY_ON_STARTUP = True
+RESULT_BACKEND= 'django-db'
 
 
 
 # SMTP Settings ----->
-email_backend = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_HOST_USER ='rahmonberdiyevshohruhbek1@gmail.com'
 EMAIL_HOST_PASSWORD = "wshjpicsbdrqiwmi"
 DEFAULT_FROM_EMAIL = 'Celery <rahmonberdiyevshohruhbek1@gmail.com>'
+
