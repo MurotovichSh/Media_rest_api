@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'celery',
-    'silk',
     'oauth2_provider',
 ]
 OAUTH2_PROVIDER = {
