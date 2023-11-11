@@ -29,7 +29,6 @@ class GroupList(generics.ListAPIView):
 class PostList(generics.ListAPIView):
     queryset=Post.objects.all().order_by('-created_on')
     serializer_class=PostSerializer
-    permission_classes = [IsAdminUser] 
     paginate_by=10
     search_fields = ['topic']
     filter_backends = (filters.SearchFilter,)
