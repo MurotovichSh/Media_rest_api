@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'media_app',
     'rest_framework',
     'django_filters',
+    'silk',
     'rest_framework.authtoken',
     'celery',
     'oauth2_provider',
