@@ -37,6 +37,7 @@ urlpatterns = [
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('groups/', GroupList.as_view()),
 ]
+urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
 
 
 
